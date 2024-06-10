@@ -9,16 +9,16 @@ import {
 } from './components/ui/dialog';
 import Client from './Client';
 import Product from './Product';
-import { useState } from 'react';
+import { FC } from 'react';
 
-const Form = () => {
-  const [open, setOpen] = useState(false);
+type FormProps = {
+  open: boolean;
+  setOpen: React.Dispatch<React.SetStateAction<boolean>>;
+};
 
+const Form: FC<FormProps> = ({ open, setOpen }) => {
   return (
     <Dialog open={open} onOpenChange={setOpen}>
-      <DialogTrigger asChild>
-        <Button variant="outline">Add session</Button>
-      </DialogTrigger>
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>
           <DialogTitle>Add session</DialogTitle>

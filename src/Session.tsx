@@ -1,10 +1,15 @@
+import { useState } from 'react';
 import { Calendar } from './components/ui/calendar';
-import { Button } from './components/ui/button';
-import React from 'react';
+import Form from './Form';
 
 const Session = () => {
-  const [date, setDate] = React.useState<Date | undefined>(new Date());
-  console.log(date);
+  const [date, setDate] = useState<Date | undefined>(new Date());
+  const [openForm, setOpenForm] = useState<boolean>(false);
+
+  const handleClickDate = () => {
+    setOpenForm(!openForm);
+  };
+
   return (
     <>
       <Calendar
@@ -12,8 +17,9 @@ const Session = () => {
         selected={date}
         onSelect={setDate}
         className="rounded-md border"
+        onDayClick={handleClickDate}
       />
-      <Button>Confirm</Button>
+      <Form open={openForm} setOpen={setOpenForm} />
     </>
   );
 };
