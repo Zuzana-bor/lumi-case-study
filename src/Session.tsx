@@ -1,25 +1,40 @@
 import { useState } from 'react';
-import { Calendar } from './components/ui/calendar';
-import Form from './Form';
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from '@/components/ui/accordion';
+import Form, { NewSession } from './Form';
+import { Button } from './components/ui/button';
+import TestForm from './TestForm';
 
 const Session = () => {
-  const [date, setDate] = useState<Date | undefined>(new Date());
+  const [newSession, setNewSession] = useState<NewSession>();
   const [openForm, setOpenForm] = useState<boolean>(false);
 
-  const handleClickDate = () => {
+  const handleClick = () => {
     setOpenForm(!openForm);
+  };
+
+  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    console.log(event);
+    console.log('co?');
   };
 
   return (
     <>
-      <Calendar
-        mode="single"
-        selected={date}
-        onSelect={setDate}
-        className="rounded-md border"
-        onDayClick={handleClickDate}
-      />
-      <Form open={openForm} setOpen={setOpenForm} />
+      <TestForm />
+      <Accordion type="single" collapsible>
+        <AccordionItem value="item-1">
+          <AccordionTrigger>Is it accessible?</AccordionTrigger>
+          <AccordionContent>
+            Yes. It adheres to the WAI-ARIA design pattern.
+          </AccordionContent>
+        </AccordionItem>
+      </Accordion>
+      <Button onClick={handleClick}>Add session</Button>
+      <Form open={openForm} setOpen={setOpenForm} handleChange={handleChange} />
     </>
   );
 };

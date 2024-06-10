@@ -1,6 +1,4 @@
-import * as React from 'react';
 import { Check, ChevronsUpDown } from 'lucide-react';
-
 import { cn } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
 import {
@@ -17,10 +15,17 @@ import {
   PopoverTrigger,
 } from '@/components/ui/popover';
 import { clients } from './data/clients';
+import { useState } from 'react';
+import { initialNewSession } from './Form';
 
-const Client = () => {
-  const [open, setOpen] = React.useState(false);
-  const [value, setValue] = React.useState('');
+type ProductProps = {
+  handleChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
+};
+
+const Client: React.FC<ProductProps> = ({ handleChange }) => {
+  const [open, setOpen] = useState(false);
+  const [value, setValue] = useState('');
+
   return (
     <>
       <Popover open={open} onOpenChange={setOpen}>
@@ -32,14 +37,15 @@ const Client = () => {
             className="w-[200px] justify-between"
           >
             {value
-              ? clients.find((client) => client.id === value)?.name
+              ? clients.find((client) => client.name === value)?.name
               : 'client...'}
+
             <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
           </Button>
         </PopoverTrigger>
         <PopoverContent className="w-[200px] p-0">
           <Command>
-            <CommandInput placeholder="Search client..." />
+          <input placeholder="Search client..." onChange={handleChange} value={initialNewSession.client} />
             <CommandList>
               <CommandEmpty>No client found.</CommandEmpty>
               <CommandGroup>
@@ -50,6 +56,7 @@ const Client = () => {
                     onSelect={(currentValue) => {
                       setValue(currentValue === value ? '' : currentValue);
                       setOpen(false);
+                      handleChange = { handleChange };
                     }}
                   >
                     <Check

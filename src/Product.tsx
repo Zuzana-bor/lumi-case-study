@@ -1,13 +1,11 @@
 import * as React from 'react';
 import { Check, ChevronsUpDown } from 'lucide-react';
-
 import { cn } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
 import {
   Command,
   CommandEmpty,
   CommandGroup,
-  CommandInput,
   CommandItem,
   CommandList,
 } from '@/components/ui/command';
@@ -17,8 +15,13 @@ import {
   PopoverTrigger,
 } from '@/components/ui/popover';
 import { products } from './data/products';
+import { initialNewSession } from './Form';
 
-const Product = () => {
+type ProductProps = {
+  handleChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
+};
+
+const Product: React.FC<ProductProps> = ({ handleChange }) => {
   const [open, setOpen] = React.useState(false);
   const [value, setValue] = React.useState('');
   return (
@@ -32,14 +35,18 @@ const Product = () => {
             className="w-[200px] justify-between"
           >
             {value
-              ? products.find((product) => product.id === value)?.name
+              ? products.find((product) => product.name === value)?.name
               : 'product...'}
             <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
           </Button>
         </PopoverTrigger>
         <PopoverContent className="w-[200px] p-0">
           <Command>
-            <CommandInput placeholder="Search product..." />
+            <input
+              placeholder="Search product..."
+              onChange={handleChange}
+              value={initialNewSession.session}
+            />
             <CommandList>
               <CommandEmpty>No product found.</CommandEmpty>
               <CommandGroup>
