@@ -16,9 +16,9 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from '@/components/ui/popover';
-import { clients } from './data/clients';
+import { products } from './data/products';
 
-const Client = () => {
+const Product = () => {
   const [open, setOpen] = React.useState(false);
   const [value, setValue] = React.useState('');
   return (
@@ -32,21 +32,21 @@ const Client = () => {
             className="w-[200px] justify-between"
           >
             {value
-              ? clients.find((client) => client.id === value)?.name
-              : 'client...'}
+              ? products.find((product) => product.id === value)?.name
+              : 'product...'}
             <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
           </Button>
         </PopoverTrigger>
         <PopoverContent className="w-[200px] p-0">
           <Command>
-            <CommandInput placeholder="Search client..." />
+            <CommandInput placeholder="Search product..." />
             <CommandList>
-              <CommandEmpty>No client found.</CommandEmpty>
+              <CommandEmpty>No product found.</CommandEmpty>
               <CommandGroup>
-                {clients.map((client) => (
+                {products.map((product) => (
                   <CommandItem
-                    key={client.id}
-                    value={client.name}
+                    key={product.id}
+                    value={product.name}
                     onSelect={(currentValue) => {
                       setValue(currentValue === value ? '' : currentValue);
                       setOpen(false);
@@ -55,10 +55,10 @@ const Client = () => {
                     <Check
                       className={cn(
                         'mr-2 h-4 w-4',
-                        value === client.name ? 'opacity-100' : 'opacity-0',
+                        value === product.name ? 'opacity-100' : 'opacity-0',
                       )}
                     />
-                    {client.name}
+                    {product.name}
                   </CommandItem>
                 ))}
               </CommandGroup>
@@ -70,4 +70,4 @@ const Client = () => {
   );
 };
 
-export default Client;
+export default Product;
