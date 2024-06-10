@@ -13,7 +13,7 @@ const Session = () => {
         onSelect={setDate}
         className="rounded-md border"
       />
-      <Button>test</Button>
+      <Button>Confirm</Button>
     </>
   );
 };
