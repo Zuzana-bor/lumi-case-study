@@ -1,12 +1,8 @@
 import './App.css';
-import { Button } from '@/components/ui/button';
+import Session from './Session';
 
 function App() {
-  return (
-    <>
-      <Button>Test</Button>
-    </>
-  );
+  return <Session />;
 }
 
 export default App;
