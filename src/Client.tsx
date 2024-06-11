@@ -16,15 +16,16 @@ import {
 } from '@/components/ui/popover';
 import { clients } from './data/clients';
 import { useState } from 'react';
-import { initialNewSession } from './Form';
+import React, { FC } from 'react';
 
-type ProductProps = {
-  handleChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
+type ClientProps = {
+  handleChange: (value: string) => void;
 };
 
-const Client: React.FC<ProductProps> = ({ handleChange }) => {
+const Client: FC<ClientProps> = ({ handleChange }) => {
   const [open, setOpen] = useState(false);
   const [value, setValue] = useState('');
+  console.log(value);
 
   return (
     <>
@@ -45,7 +46,7 @@ const Client: React.FC<ProductProps> = ({ handleChange }) => {
         </PopoverTrigger>
         <PopoverContent className="w-[200px] p-0">
           <Command>
-          <input placeholder="Search client..." onChange={handleChange} value={initialNewSession.client} />
+            <CommandInput />
             <CommandList>
               <CommandEmpty>No client found.</CommandEmpty>
               <CommandGroup>
@@ -56,7 +57,7 @@ const Client: React.FC<ProductProps> = ({ handleChange }) => {
                     onSelect={(currentValue) => {
                       setValue(currentValue === value ? '' : currentValue);
                       setOpen(false);
-                      handleChange = { handleChange };
+                      handleChange(currentValue);
                     }}
                   >
                     <Check

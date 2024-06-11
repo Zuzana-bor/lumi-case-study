@@ -10,21 +10,25 @@ import {
   PopoverTrigger,
 } from '@/components/ui/popover';
 import { CalendarIcon } from 'lucide-react';
-import { initialNewSession } from './Form';
+
 import { FC } from 'react';
-
-type DateProps = {
-  handleChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
+type ClientProps = {
+  handleChange: (date: Date) => void;
 };
-
-const DateSelection: FC<DateProps> = ({ handleChange }) => {
+const DateSelection: FC<ClientProps> = ({ handleChange }) => {
   const [date, setDate] = React.useState<Date>();
+  const [calendarOpen, setCalendarOpen] = React.useState(false);
 
-  const handleDateChange = (selectedDate: Date | undefined) => {
-    setDate(selectedDate);
-    {
-      handleChange;
+  const handleDateSelect = (day: Date | undefined) => {
+    if (day) {
+      setDate(day);
+      handleChange(day);
+      setCalendarOpen(false);
     }
+  };
+
+  const handleOpenCalendarClick = () => {
+    setCalendarOpen(!calendarOpen);
   };
 
   return (
@@ -32,6 +36,7 @@ const DateSelection: FC<DateProps> = ({ handleChange }) => {
       <PopoverTrigger asChild>
         <Button
           variant={'outline'}
+          onClick={handleOpenCalendarClick}
           className={cn(
             'w-[280px] justify-start text-left font-normal',
             !date && 'text-muted-foreground',
@@ -42,12 +47,14 @@ const DateSelection: FC<DateProps> = ({ handleChange }) => {
         </Button>
       </PopoverTrigger>
       <PopoverContent className="w-auto p-0">
-        <Calendar
-          mode="single"
-          selected={date}
-          onSelect={handleDateChange}
-          initialFocus
-        />
+        {calendarOpen ? (
+          <Calendar
+            mode="single"
+            selected={date}
+            onSelect={handleDateSelect}
+            initialFocus
+          />
+        ) : null}
       </PopoverContent>
     </Popover>
   );

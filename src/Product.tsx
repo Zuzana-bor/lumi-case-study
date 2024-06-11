@@ -6,6 +6,7 @@ import {
   Command,
   CommandEmpty,
   CommandGroup,
+  CommandInput,
   CommandItem,
   CommandList,
 } from '@/components/ui/command';
@@ -15,15 +16,15 @@ import {
   PopoverTrigger,
 } from '@/components/ui/popover';
 import { products } from './data/products';
-import { initialNewSession } from './Form';
 
-type ProductProps = {
-  handleChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
+import { FC } from 'react';
+type ClientProps = {
+  handleChange: (value: string) => void;
 };
-
-const Product: React.FC<ProductProps> = ({ handleChange }) => {
+const Product: FC<ClientProps> = ({ handleChange }) => {
   const [open, setOpen] = React.useState(false);
   const [value, setValue] = React.useState('');
+
   return (
     <>
       <Popover open={open} onOpenChange={setOpen}>
@@ -42,11 +43,7 @@ const Product: React.FC<ProductProps> = ({ handleChange }) => {
         </PopoverTrigger>
         <PopoverContent className="w-[200px] p-0">
           <Command>
-            <input
-              placeholder="Search product..."
-              onChange={handleChange}
-              value={initialNewSession.session}
-            />
+            <CommandInput placeholder="Search product..." />
             <CommandList>
               <CommandEmpty>No product found.</CommandEmpty>
               <CommandGroup>
@@ -57,6 +54,7 @@ const Product: React.FC<ProductProps> = ({ handleChange }) => {
                     onSelect={(currentValue) => {
                       setValue(currentValue === value ? '' : currentValue);
                       setOpen(false);
+                      handleChange(currentValue);
                     }}
                   >
                     <Check

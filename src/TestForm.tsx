@@ -1,125 +1,100 @@
-import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm, FormProvider } from 'react-hook-form';
+import { z } from 'zod';
+import { Button } from '@/components/ui/button';
 import {
-  FormControl,
-  FormDescription,
   FormField,
   FormItem,
   FormLabel,
   FormMessage,
-} from './components/ui/form';
-import { Input } from '@/components/ui/input';
-import { Button } from './components/ui/button';
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from './components/ui/popover';
-import { Calendar } from './components/ui/calendar';
-import { CalendarIcon } from 'lucide-react';
-import { format } from 'date-fns';
-import { cn } from './lib/utils';
+} from '@/components/ui/form';
+import Client from './Client';
+import Product from './Product';
+import DateSelection from './DateSlection';
+import { FC, useState } from 'react';
+import { useLocalStorage } from '@uidotdev/usehooks';
+import { Card } from './components/ui/card';
+import Session from './Session';
 
-const formSchema = z.object({
+export const formSchema = z.object({
   client: z
-    .string()
+    .string({ required_error: 'select a client' })
     .min(2, { message: 'too short' })
     .max(50, { message: 'too long' }),
-  product: z.string(),
+  product: z.string({ required_error: 'select a product' }),
   dob: z.date({ required_error: 'select a date' }),
 });
 
-const TestForm = () => {
+type TestFormProps = {
+  addFormData: (data: z.infer<typeof formSchema>) => void;
+  hideForm: () => void;
+};
+
+const TestForm: FC<TestFormProps> = ({ addFormData, hideForm }) => {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
-    defaultValues: {
-      client: '',
-      product: '',
-    },
   });
 
-  const onSubmit = (values: z.infer<typeof formSchema>) => {
-    console.log(values);
+  const handleChangeClient = (value: string) => {
+    form.setValue('client', value);
+  };
+  const handleChangeProduct = (value: string) => {
+    form.setValue('product', value);
   };
 
-  return (
-    <FormProvider {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
-        <FormField
-          control={form.control}
-          name="client"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Client</FormLabel>
-              <FormControl>
-                <Input placeholder="shadcn" {...field} />
-              </FormControl>
-              <FormDescription>
-                This is your public display name.
-              </FormDescription>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        <FormField
-          control={form.control}
-          name="product"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Product</FormLabel>
-              <FormControl>
-                <Input placeholder="Product name" {...field} />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        <FormField
-          control={form.control}
-          name="dob"
-          render={({ field }) => (
-            <FormItem className="flex flex-col">
-              <FormLabel>Date of session</FormLabel>
-              <Popover>
-                <PopoverTrigger asChild>
-                  <FormControl>
-                    <Button
-                      variant={'outline'}
-                      className={cn(
-                        'w-[240px] pl-3 text-left font-normal',
-                        !field.value && 'text-muted-foreground',
-                      )}
-                    >
-                      {field.value ? (
-                        format(field.value, 'PPP')
-                      ) : (
-                        <span>Pick a date</span>
-                      )}
-                      <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
-                    </Button>
-                  </FormControl>
-                </PopoverTrigger>
-                <PopoverContent className="w-auto p-0" align="start">
-                  <Calendar
-                    mode="single"
-                    selected={field.value}
-                    onSelect={field.onChange}
-                    disabled={(date) =>
-                      date > new Date() || date < new Date('1900-01-01')
-                    }
-                    initialFocus
-                  />
-                </PopoverContent>
-              </Popover>
+  const handleChangeDate = (date: Date) => {
+    form.setValue('dob', date);
+  };
 
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        <Button type="submit">Submit</Button>
-      </form>
-    </FormProvider>
+  function onSubmit(data: z.infer<typeof formSchema>) {
+    addFormData(data);
+    form.reset();
+    hideForm();
+  }
+
+  return (
+    <>
+      <Card className="w-[350px]">
+        <FormProvider {...form}>
+          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+            <FormField
+              control={form.control}
+              name="client"
+              render={({ field }) => (
+                <FormItem className="flex flex-col">
+                  <FormLabel>Client</FormLabel>
+                  <Client handleChange={handleChangeClient} />
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="product"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Product</FormLabel>
+                  <Product handleChange={handleChangeProduct} />
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="dob"
+              render={({ field }) => (
+                <FormItem className="flex flex-col">
+                  <FormLabel>Date of session</FormLabel>
+                  <DateSelection handleChange={handleChangeDate} />
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <Button type="submit">Submit</Button>
+          </form>
+        </FormProvider>
+      </Card>
+    </>
   );
 };
 
