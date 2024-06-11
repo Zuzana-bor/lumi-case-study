@@ -91,7 +91,7 @@ const TestForm: FC<TestFormProps> = ({ addFormData, hideForm }) => {
               )}
             />
             <Button
-              className="bg-orange-500 hover:bg-orange-600 text-white font-bold py-8 px-16  rounded-full focus:outline-none focus:ring-2 focus:ring-orange-500 focus:ring-opacity-50 m-4 text-lg "
+              className="bg-orange-500 hover:bg-blue-600 text-white font-bold py-8 px-16  rounded-full focus:outline-none focus:ring-2 focus:ring-orange-500 focus:ring-opacity-50 m-4 text-lg "
               type="submit"
             >
               Submit
