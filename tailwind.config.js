@@ -18,10 +18,14 @@ module.exports = {
     },
     extend: {
       colors: {
+        blue: {
+          DEFAULT: '#2196F3',
+        },
+
         border: 'hsl(var(--border))',
         input: 'hsl(var(--input))',
         ring: 'hsl(var(--ring))',
-        background: 'hsl(var(--background))',
+        background: '#FBE9E7',
         foreground: 'hsl(var(--foreground))',
         primary: {
           DEFAULT: 'hsl(var(--primary))',
@@ -52,6 +56,7 @@ module.exports = {
           foreground: 'hsl(var(--card-foreground))',
         },
       },
+
       borderRadius: {
         lg: 'var(--radius)',
         md: 'calc(var(--radius) - 2px)',

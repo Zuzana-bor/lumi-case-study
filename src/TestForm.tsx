@@ -46,17 +46,17 @@ const TestForm: FC<TestFormProps> = ({ addFormData, hideForm }) => {
     form.setValue('dob', date);
   };
 
-  function onSubmit(data: z.infer<typeof formSchema>) {
+  const onSubmit = (data: z.infer<typeof formSchema>) => {
     addFormData(data);
     form.reset();
     hideForm();
-  }
+  };
 
   return (
     <>
-      <Card className="w-[350px]">
+      <Card className="w-full md:w-[350px] mx-auto p-4 border-solid border-2 border-sky-500 text-blue">
         <FormProvider {...form}>
-          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4 ">
             <FormField
               control={form.control}
               name="client"
@@ -72,7 +72,7 @@ const TestForm: FC<TestFormProps> = ({ addFormData, hideForm }) => {
               control={form.control}
               name="product"
               render={({ field }) => (
-                <FormItem>
+                <FormItem className="flex flex-col">
                   <FormLabel>Product</FormLabel>
                   <Product handleChange={handleChangeProduct} />
                   <FormMessage />
@@ -90,7 +90,12 @@ const TestForm: FC<TestFormProps> = ({ addFormData, hideForm }) => {
                 </FormItem>
               )}
             />
-            <Button type="submit">Submit</Button>
+            <Button
+              className="bg-orange-500 hover:bg-orange-600 text-white font-bold py-8 px-16  rounded-full focus:outline-none focus:ring-2 focus:ring-orange-500 focus:ring-opacity-50 m-4 text-lg "
+              type="submit"
+            >
+              Submit
+            </Button>
           </form>
         </FormProvider>
       </Card>

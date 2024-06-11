@@ -12,10 +12,14 @@ import TestForm, { formSchema } from './TestForm';
 import { Client, clients } from './data/clients';
 import { Product, products } from './data/products';
 import { Card } from './components/ui/card';
+import { useLocalStorage } from '@uidotdev/usehooks';
 
 const Session = () => {
   const [openForm, setOpenForm] = useState(false);
-  const [formData, setFormData] = useState<z.infer<typeof formSchema>[]>([]);
+  const [formData, setFormData] = useLocalStorage<z.infer<typeof formSchema>[]>(
+    'formData',
+    [],
+  );
   const handleClick = () => {
     setOpenForm(!openForm);
   };
@@ -38,98 +42,122 @@ const Session = () => {
 
   return (
     <>
-      <Accordion type="single" collapsible>
+      <Accordion
+        type="single"
+        collapsible
+        className="text-blue mx-24 border-solid border-2 border-sky-500  py-30 px-80    rounded-full"
+      >
         {Array.isArray(formData) && formData.length > 0 && (
-          <AccordionItem value="item-1">
+          <>
             {formData.map((data, index) => {
               const formattedDate = new Date(data.dob).toLocaleDateString();
               return (
-                <div key={index}>
-                  <AccordionTrigger>
-                    <p>
-                      {data.client}, {data.product}, {formattedDate}
-                    </p>
-                  </AccordionTrigger>
-                  <AccordionContent>
-                    <Card>
-                      {data.client && (
-                        <>
-                          {findClientByName(data.client) ? (
+                <AccordionItem key={index} value={`item-${index}`}>
+                  <div>
+                    <AccordionTrigger>
+                      <p>
+                        {data.client}, {data.product}, {formattedDate}
+                      </p>
+                    </AccordionTrigger>
+                    <AccordionContent className="flex flex-wrap">
+                      <div className="w-full md:w-1/2 px-2 mb-4">
+                        <Card className="h-full">
+                          <h4 className="scroll-m-20 text-xl font-semibold tracking-tight">
+                            Client
+                          </h4>
+                          {data.client && (
                             <>
-                              <p>
-                                Discount:
-                                {findClientByName(data.client)?.discount}
-                              </p>
-                              <p>
-                                Payment Method Preference:
-                                {
-                                  findClientByName(data.client)
-                                    ?.paymentMethodPreference
-                                }
-                              </p>
-                              <p>
-                                Location Preference:
-                                {
-                                  findClientByName(data.client)
-                                    ?.locationPreference
-                                }
-                              </p>
-                              <p>
-                                Generate Invoices:{' '}
-                                {findClientByName(
-                                  data.client,
-                                )?.generateInvoices.toString()}
-                              </p>
+                              {findClientByName(data.client) ? (
+                                <>
+                                  <p>
+                                    Id:
+                                    {findClientByName(data.client)?.id}
+                                  </p>
+                                  <p>
+                                    Discount:
+                                    {findClientByName(data.client)?.discount}
+                                  </p>
+                                  <p>
+                                    Payment Method Preference:
+                                    {
+                                      findClientByName(data.client)
+                                        ?.paymentMethodPreference
+                                    }
+                                  </p>
+                                  <p>
+                                    Location Preference:
+                                    {
+                                      findClientByName(data.client)
+                                        ?.locationPreference
+                                    }
+                                  </p>
+                                  <p>
+                                    Generate Invoices:{' '}
+                                    {findClientByName(
+                                      data.client,
+                                    )?.generateInvoices.toString()}
+                                  </p>
+                                </>
+                              ) : (
+                                <p>Client not found.</p>
+                              )}
                             </>
-                          ) : (
-                            <p>Client not found.</p>
                           )}
-                        </>
-                      )}
-                    </Card>
-
-                    <Card>
-                      {data.product && (
-                        <>
-                          {findProductByName(data.product) ? (
+                        </Card>
+                      </div>
+                      <div className="w-full md:w-1/2 px-2 mb-4">
+                        <Card className="h-full ">
+                          <h4 className="scroll-m-20 text-xl font-semibold tracking-tight">
+                            Product:
+                          </h4>
+                          {data.product && (
                             <>
-                              <p>
-                                Id:
-                                {findProductByName(data.product)?.id}
-                              </p>
-                              <p>
-                                DurationMinutes:
-                                {
-                                  findProductByName(data.product)
-                                    ?.durationMinutes
-                                }
-                              </p>
-                              <p>
-                                Price:
-                                {findProductByName(data.product)?.price}
-                              </p>
-                              <p>
-                                Payment finalization
-                                {
-                                  findProductByName(data.product)
-                                    ?.paymentFinalization
-                                }
-                              </p>
+                              {findProductByName(data.product) ? (
+                                <>
+                                  <p>
+                                    Id:
+                                    {findProductByName(data.product)?.id}
+                                  </p>
+                                  <p>
+                                    DurationMinutes:
+                                    {
+                                      findProductByName(data.product)
+                                        ?.durationMinutes
+                                    }
+                                  </p>
+                                  <p>
+                                    Price:
+                                    {findProductByName(data.product)?.price}
+                                  </p>
+                                  <p>
+                                    Payment finalization
+                                    {
+                                      findProductByName(data.product)
+                                        ?.paymentFinalization
+                                    }
+                                  </p>
+                                </>
+                              ) : (
+                                <p>Product not found.</p>
+                              )}
                             </>
-                          ) : (
-                            <p>Product not found.</p>
                           )}
-                        </>
-                      )}
-                    </Card>
-                  </AccordionContent>
-                </div>
+                        </Card>
+                      </div>
+                    </AccordionContent>
+                  </div>
+                </AccordionItem>
               );
             })}
-          </AccordionItem>
+          </>
         )}
       </Accordion>
-      <Button onClick={handleClick}>Add session</Button>
+      <Button
+        onClick={handleClick}
+        className="bg-orange-500 hover:bg-orange-600 text-white font-bold py-8 px-16  rounded-full focus:outline-none focus:ring-2 focus:ring-orange-500 focus:ring-opacity-50 m-4 text-lg "
+      >
+        Add session
+      </Button>
       {openForm ? (
         <TestForm addFormData={addFormData} hideForm={hideForm} />
       ) : null}
