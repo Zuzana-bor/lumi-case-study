@@ -50,7 +50,7 @@ const TestForm: FC<TestFormProps> = ({ addFormData, hideForm }) => {
             <FormField
               control={form.control}
               name="client"
-              render={({ field }) => (
+              render={() => (
                 <FormItem className="flex flex-col">
                   <FormLabel>Client</FormLabel>
                   <Client handleChange={handleChangeClient} />
@@ -61,7 +61,7 @@ const TestForm: FC<TestFormProps> = ({ addFormData, hideForm }) => {
             <FormField
               control={form.control}
               name="product"
-              render={({ field }) => (
+              render={() => (
                 <FormItem className="flex flex-col">
                   <FormLabel>Product</FormLabel>
                   <Product handleChange={handleChangeProduct} />
@@ -72,7 +72,7 @@ const TestForm: FC<TestFormProps> = ({ addFormData, hideForm }) => {
             <FormField
               control={form.control}
               name="dob"
-              render={({ field }) => (
+              render={() => (
                 <FormItem className="flex flex-col">
                   <FormLabel>Date of session</FormLabel>
                   <DateSelection handleChange={handleChangeDate} />

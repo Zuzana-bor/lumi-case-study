@@ -7,11 +7,12 @@ import {
 } from '@/components/ui/accordion';
 import { Button } from './components/ui/button';
 import { z } from 'zod';
-import TestForm, { formSchema } from './TestForm';
+import TestForm from './TestForm';
 import { Client, clients } from './data/clients';
 import { Product, products } from './data/products';
 import { Card } from './components/ui/card';
 import { useLocalStorage } from '@uidotdev/usehooks';
+import { formSchema } from './utils';
 
 const Session = () => {
   const [openForm, setOpenForm] = useState(false);
