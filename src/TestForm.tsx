@@ -54,7 +54,7 @@ const TestForm: FC<TestFormProps> = ({ addFormData, hideForm }) => {
 
   return (
     <>
-      <Card className="w-full md:w-[350px] mx-auto p-4 border-solid border-2 border-sky-500 text-blue">
+      <Card className="w-full md:w-[350px] mx-auto p-4  text-blue shadow-2xl">
         <FormProvider {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4 ">
             <FormField

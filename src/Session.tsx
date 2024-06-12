@@ -40,8 +40,12 @@ const Session = () => {
     setOpenForm(false);
   };
 
+  const sortedFormData = [...formData].sort(
+    (a, b) => new Date(a.dob).getTime() - new Date(b.dob).getTime(),
+  );
+
   return (
-    <div className="flex flex-col md:flex-row mx-8">
+    <div className="flex flex-col md:flex-row mx-4 justify-between background">
       <div className="md:w-1/4 flex flex-col space-y-4 mr-4">
         <Button
           onClick={handleClick}
@@ -53,15 +57,15 @@ const Session = () => {
           <TestForm addFormData={addFormData} hideForm={hideForm} />
         ) : null}
       </div>
-      <div className="md:w-3/4">
+      <div className="md:w-3/4 md:mx-4">
         <Accordion
           type="single"
           collapsible
-          className="text-blue mx-24 border-solid border-2 border-sky-500 px-5 rounded-lg w-full md:w-[80%]"
+          className="text-blue mx-24 border-solid   px-5 rounded-lg w-full md:w-[80%] bg-white shadow-2xl"
         >
-          {Array.isArray(formData) && formData.length > 0 && (
+          {Array.isArray(sortedFormData) && sortedFormData.length > 0 && (
             <>
-              {formData.map((data, index) => {
+              {sortedFormData.map((data, index) => {
                 const formattedDate = new Date(data.dob).toLocaleDateString();
                 return (
                   <AccordionItem key={index} value={`item-${index}`}>
@@ -72,10 +76,10 @@ const Session = () => {
                         </p>
                       </AccordionTrigger>
                       <AccordionContent className="flex flex-wrap">
-                        <div className="w-full md:w-1/2 px-2 mb-4">
-                          <Card className="h-full">
-                            <h4 className="scroll-m-20 text-xl font-semibold tracking-tight">
-                              Client
+                        <div className="w-full md:w-1/2 px-2 mb-4 ">
+                          <Card className="h-full text-left pl-4 pb-4 bg-[#FBE9E7] ">
+                            <h4 className="scroll-m-20 text-xl font-semibold tracking-tight pb-2">
+                              Client:
                             </h4>
                             {data.client && (
                               <>
@@ -118,8 +122,8 @@ const Session = () => {
                           </Card>
                         </div>
                         <div className="w-full md:w-1/2 px-2 mb-4">
-                          <Card className="h-full ">
-                            <h4 className="scroll-m-20 text-xl font-semibold tracking-tight">
+                          <Card className="h-full text-left pl-4 pb-4 bg-[#FBE9E7] ">
+                            <h4 className="scroll-m-20 text-xl font-semibold tracking-tight pb-2">
                               Product:
                             </h4>
                             {data.product && (
