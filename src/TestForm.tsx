@@ -11,19 +11,9 @@ import {
 import Client from './Client';
 import Product from './Product';
 import DateSelection from './DateSlection';
-import { FC, useState } from 'react';
-import { useLocalStorage } from '@uidotdev/usehooks';
+import { FC } from 'react';
 import { Card } from './components/ui/card';
-import Session from './Session';
-
-export const formSchema = z.object({
-  client: z
-    .string({ required_error: 'select a client' })
-    .min(2, { message: 'too short' })
-    .max(50, { message: 'too long' }),
-  product: z.string({ required_error: 'select a product' }),
-  dob: z.date({ required_error: 'select a date' }),
-});
+import { formSchema } from './utils';
 
 type TestFormProps = {
   addFormData: (data: z.infer<typeof formSchema>) => void;

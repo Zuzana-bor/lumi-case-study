@@ -16,7 +16,7 @@ import {
 } from '@/components/ui/popover';
 import { clients } from './data/clients';
 import { useState } from 'react';
-import React, { FC } from 'react';
+import { FC } from 'react';
 
 type ClientProps = {
   handleChange: (value: string) => void;
@@ -25,7 +25,6 @@ type ClientProps = {
 const Client: FC<ClientProps> = ({ handleChange }) => {
   const [open, setOpen] = useState(false);
   const [value, setValue] = useState('');
-  console.log(value);
 
   return (
     <>

@@ -5,7 +5,6 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from '@/components/ui/accordion';
-
 import { Button } from './components/ui/button';
 import { z } from 'zod';
 import TestForm, { formSchema } from './TestForm';
@@ -45,7 +44,7 @@ const Session = () => {
   );
 
   return (
-    <div className="flex flex-col md:flex-row mx-4 justify-between background">
+    <div className="flex flex-col items-center space-y-6 mx-4 md:flex-row md:items-start md:space-y-0 md:space-x-4 md:justify-between ">
       <div className="md:w-1/4 flex flex-col space-y-4 mr-4">
         <Button
           onClick={handleClick}
@@ -57,11 +56,11 @@ const Session = () => {
           <TestForm addFormData={addFormData} hideForm={hideForm} />
         ) : null}
       </div>
-      <div className="md:w-3/4 md:mx-4">
+      <div className="md:w-3/4 md:mx-4 md:pl-16 ">
         <Accordion
           type="single"
           collapsible
-          className="text-blue mx-24 border-solid   px-5 rounded-lg w-full md:w-[80%] bg-white shadow-2xl"
+          className="text-blue   px-7   rounded-lg w-full md:w-[80%] bg-white shadow-2xl"
         >
           {Array.isArray(sortedFormData) && sortedFormData.length > 0 && (
             <>
@@ -108,7 +107,7 @@ const Session = () => {
                                       }
                                     </p>
                                     <p>
-                                      Generate Invoices:{' '}
+                                      Generate Invoices:
                                       {findClientByName(
                                         data.client,
                                       )?.generateInvoices.toString()}
